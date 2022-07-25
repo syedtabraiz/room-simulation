@@ -384,56 +384,6 @@ void floor()
       glPopMatrix();
 }
 
-//void LinkinParkPoster()
-//{
-//    //Linkin Park Poster
-//
-//    //poster black
-//    glColor3f(0.0,0.0,0.0);
-//    glPushMatrix();
-//    glTranslatef(-1,1.4,4.6);
-//    //glRotatef(22, 0,0,1);
-//    glScalef(0.0001, .65, .8);
-//    drawCube();
-//    glPopMatrix();
-//
-//    //Linkin Park logo
-//    glColor3f(1.0,1.0,1.0);
-//    glPushMatrix();
-//    glTranslatef(-0.9,2.1,5.5);
-//    //glRotatef(22, 0,0,1);
-//    glScalef(0.0001, .02, .25);
-//    drawCube();
-//    glPopMatrix();
-//
-//    //Linkin Park logo
-//    glColor3f(1.0,1.0,1.0);
-//    glPushMatrix();
-//    glTranslatef(-0.9,2.1,6.2);
-//    glRotatef(-14, 1,0,0);
-//    glScalef(0.0001, .28, .02);
-//    drawCube();
-//    glPopMatrix();
-//
-//    //Linkin Park logo
-//    glColor3f(1.0,1.0,1.0);
-//    glPushMatrix();
-//    glTranslatef(-0.9,1.8,6);
-//    glRotatef(-14, 1,0,0);
-//    glScalef(0.0001, .29, .02);
-//    drawCube();
-//    glPopMatrix();
-//
-//    //Linkin Park logo
-//    glColor3f(1.0,1.0,1.0);
-//    glPushMatrix();
-//    glTranslatef(-0.9,2.1,5.5);
-//    glRotatef(23, 1,0,0);
-//    glScalef(0.0001, .25, .02);
-//    drawCube();
-//    glPopMatrix();
-//}
-
 void wardrobe()
 {
         //wardrobe
@@ -861,6 +811,7 @@ void drawlargestring(int x, int y,int z, char *s)
 
 void page()
 {
+
 	glColor3f(1,1,1);
 	glLineWidth(10);
 	glBegin(GL_LINE_LOOP);
@@ -936,43 +887,44 @@ void page()
 
 void display(void)
 {
-
     if (flag==0)
     {
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        page();
+         page();
+        glutPostRedisplay();
         glutSwapBuffers();
 
     }
 
-    else{
-             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    else if(flag==1){
 
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    gluPerspective(60,1,1,100);
 
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-    gluLookAt(eyeX,eyeY,eyeZ,  refX,refY,refZ,  0,1,0);
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glMatrixMode( GL_PROJECTION );
+        glLoadIdentity();
+        gluPerspective(60,1,1,100);
 
-    glViewport(0, 0, 800, 600);
+        glMatrixMode( GL_MODELVIEW );
+        glLoadIdentity();
 
-        base();
-        bedsideTable();
-        bed();
-        cupboard();
-        lamp();
-        floor();
-//    LinkinParkPoster();
-    wardrobe();
-    fan();
-    dressingtable();
-    Clock();
-    glFlush();
-    glutSwapBuffers();
-    }
-    glFlush();
+        gluLookAt(eyeX,eyeY,eyeZ,  refX,refY,refZ,  0,1,0);
+
+        glViewport(0, 0, 1540, 870);
+
+            base();
+            bedsideTable();
+            bed();
+            cupboard();
+            lamp();
+            floor();
+            wardrobe();
+            fan();
+            dressingtable();
+            Clock();
+            glFlush();
+            glutSwapBuffers();
+        }
+        glFlush();
 
 }
 
@@ -982,6 +934,17 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     {
         flag=1;
     }
+    else if(key=='g')
+    {
+        flag=0;
+
+      // glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+       //glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+      //  page();
+       //glutSwapBuffers();
+    }
+
+
     else{
         switch ( key )
     {
@@ -1037,13 +1000,13 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     }
     }
 
-    glutPostRedisplay();
+   glutPostRedisplay();
 }
 
 void animate()
 {
    if(fanSwitch == true){
-    a+= 5;
+    a+= 3;
             if(a > 360)
                 a -= 360;
     }
@@ -1089,7 +1052,7 @@ int main (int argc, char **argv)
     glutInitWindowPosition(0,0);
     glutInitWindowSize(windowHeight, windowWidth);
     glutCreateWindow("CGV Mini Project");
-
+    glutFullScreen();
     glutDisplayFunc(display);
     glutKeyboardFunc(myKeyboardFunc);
     myinit();
